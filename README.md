@@ -1,0 +1,2 @@
+# BlinkWord
+word memorize trainers
