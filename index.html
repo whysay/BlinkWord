@@ -54,94 +54,34 @@
 
       //------------------------------
     
-      var mydiv = document.getElementById('mydiv');
-//       var stage = new createjs.Stage("canvasH");
-//       createjs.Ticker.on("tick", tick);
-//       stage.addChild(mydiv);
-
-// function tick(event) {
-//     stage.update(event);
-//}      
-var img = new Image();
-    var lastImageBlob
-    //var mydiv = document.getElementById('mydiv');
-    var canvas = document.getElementById('mycanvas'), context = canvas.getContext('2d');
-
-
+    var g_mydiv = document.getElementById('mydiv');
+    var g_img = new Image();
+    var g_lastImageBlob
+    var g_canvas = document.getElementById('mycanvas'), g_context = g_canvas.getContext('2d');
     var elementResizeEvent = require('element-resize-event');
- 
- //var element = document.getElementById("resize");
-  
- elementResizeEvent(mydiv, resizeCanvasDiv);
- //elementResizeEvent(canvas, resizeCanvas);
+   
+    elementResizeEvent(g_mydiv, resizeCanvasDiv);
 
     function resizeCanvasDiv() {
          console.log("\n resizeCanvasDiv() \n");
-        // //document.getElementById('word1').innerHTML = "resizeCanvasDiv()";
-        //   var canvas = document.getElementById("mycanvas");
-        //   var ctx = canvas.getContext('2d');
-        //   var mydiv = document.getElementById('mydiv');
-
-            //  canvas.width = mydiv.innerWidth;
-            //  canvas.height = mydiv.innerHeight;
-
-             resizeCanvas();
-
-        //stage.update();
-
-            
+         resizeCanvas();
     }
 
     function resizeCanvas()
     {
         console.log("\n resizeCanvas() \n");
-        //document.getElementById('word1').innerHTML = "resizeCanvas()";
         /**
          * Your drawings need to be inside this function otherwise they will be reset when 
          * you resize the browser window and the canvas goes will be cleared.
          */            
-         if (lastImageBlob)
+         if (g_lastImageBlob)
         {
-    //       console.log("\n resizeCanvas() lastImageBlob\n");
-    //         //var mydiv = document.getElementById('mydiv');
-    //     //var canvas = document.getElementById("mycanvas");
-    //     //var ctx = canvas.getContext('2d');
-    //     var canvas = document.getElementById("mycanvas");
-    //       var ctx = canvas.getContext('2d');
-    //     // Create an image to render the blob on the canvas
-    //     //var img = new Image();
-
-    //     // Once the image loads, render the img on the canvas
-    // //     img.onload = function(){
-    // //         // Update dimensions of the canvas with the dimensions of the image
-    // //         console.log("\n resizeCanvas() onload" + img.width);
-
-
-    // // // set size proportional to image
-    // // canvas.height = canvas.width * (img.height / img.width);
-
-    // // // step 1 - resize to 50%
-    // // var oc = document.createElement('canvas'),
-    // //     octx = oc.getContext('2d');
-
-    // // oc.width = img.width * 0.5;
-    // // oc.height = img.height * 0.5;
-    // // octx.drawImage(img, 0, 0, oc.width, oc.height);
-
-    // // // step 2
-    // // octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
-
-    // // step 3, resize to final size
-    // ctx.drawImage(img, 0, 0, canvas.clientWidth, canvas.clientHeight);  
-
-    // //     };
-
-    //     // Crossbrowser support for URL
+         // Crossbrowser support for URL
          var URLObj = window.URL || window.webkitURL;
 
         // Creates a DOMString containing a URL representing the object given in the parameter
         // namely the original Blob
-        img.src = URLObj.createObjectURL(lastImageBlob);
+        g_img.src = URLObj.createObjectURL(g_lastImageBlob);
         }
     }
 
@@ -186,39 +126,21 @@ window.addEventListener("paste", function(e){
 retrieveImageFromClipboardAsBlob(e, function(imageBlob){
     // If there's an image, display it in the canvas
     if(imageBlob){
-      lastImageBlob = imageBlob;
-        var canvas = document.getElementById("mycanvas");
-        var ctx = canvas.getContext('2d');
-        var mydiv = document.getElementById('mydiv');
+      g_lastImageBlob = imageBlob;
+        //g_canvas = document.getElementById("mycanvas");
+        //var ctx = canvas.getContext('2d');
+        //var mydiv = document.getElementById('mydiv');
         
         // Create an image to render the blob on the canvas
         // Once the image loads, render the img on the canvas
-        img.onload = function(){
-          console.log("\n img onload() " + mydiv.clientWidth+"\n");
+        g_img.onload = function(){
+          console.log("\n img onload() " + g_mydiv.clientWidth+"\n");
             // Update dimensions of the canvas with the dimensions of the image
-            canvas.width = mydiv.clientWidth;
-            canvas.height = mydiv.clientHeight;
+            g_canvas.width = g_mydiv.clientWidth;
+            g_canvas.height = g_mydiv.clientHeight;
 
             // Draw the image
-            ctx.drawImage(img, 0, 0, mydiv.clientWidth, mydiv.clientHeight);
-
-    // // set size proportional to image
-    // canvas.height = canvas.width * (img.height / img.width);
-
-    // // step 1 - resize to 50%
-    // var oc = document.createElement('canvas'),
-    //     octx = oc.getContext('2d');
-
-    // oc.width = img.width * 0.5;
-    // oc.height = img.height * 0.5;
-    // octx.drawImage(img, 0, 0, oc.width, oc.height);
-
-    // // step 2
-    // octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
-
-    // // step 3, resize to final size
-    // ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,
-    // 0, 0, canvas.width, canvas.height);            
+            g_context.drawImage(g_img, 0, 0, g_mydiv.clientWidth, g_mydiv.clientHeight);       
         };
 
         // Crossbrowser support for URL
@@ -226,9 +148,7 @@ retrieveImageFromClipboardAsBlob(e, function(imageBlob){
 
         // Creates a DOMString containing a URL representing the object given in the parameter
         // namely the original Blob
-        img.src = URLObj.createObjectURL(imageBlob);
-
-        //ctx.drawImage(img, 0, 0);
+        g_img.src = URLObj.createObjectURL(imageBlob);
     }
 });
 }, false);      

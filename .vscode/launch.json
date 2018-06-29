@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
       {
         "name": "Debug Main Process",
         "type": "node",
@@ -11,6 +12,20 @@
           "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
         },
         "args" : ["."]
-      }
+      },
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Electron Renderer",
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+        "windows": {
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+        },
+        "runtimeArgs": [
+            "${workspaceRoot}",
+            "--enable-logging",
+            "--remote-debugging-port=9222"
+        ]
+    }  
     ]
   }
