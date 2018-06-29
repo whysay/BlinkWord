@@ -11,7 +11,12 @@ let mainWindow
 function createWindow () {
   setInterval(changeWord, 1000);
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    transparent: true,
+    frame: true,
+    toolbar: false})
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -52,7 +57,7 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 const blinkJs = require('./BlinkWord');
-
+ 
 function changeWord()
 {
   blinkJs.readTextFile("./test.json", function(text){

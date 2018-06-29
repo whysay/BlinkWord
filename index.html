@@ -3,69 +3,47 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-   
-  </head>
-  <body>
-<style>
-  * { margin:0; padding:0; } /* to remove the top and left whitespace */
+    
+    <style>
+        * { margin:0; padding:0; } /* to remove the top and left whitespace */
+      
+      html, body { width:100%; height:100%; 
+          background: rgba(238, 238, 238, 0.507);} /* just to be sure these are full screen*/
+      
+      canvas { display:block; 
+          background: rgba(238, 238, 238, 0);} /* To remove the scrollbars */
+      
+      div {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          width: 200px;
+          height: 200px;
+          overflow:auto;
+          resize:both;
+          background-color:rgba(0, 255, 255, 0);
+      }
+        </style>
 
-html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+    
+    </head>
+<body>
+    <div style="background-color:rgba(0, 255, 255, 0)" id="mydiv">
+        <canvas style="border:1px solid rgba(128, 128, 128, 0);" id="mycanvas">
 
-canvas { display:block; } /* To remove the scrollbars */
-
-
-/* to show the canvas bounds */
-canvas {
-    background: #eee;
-}
-
-div {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 200px;
-    height: 200px;
-    overflow:auto;
-    resize:both;
-}
-  </style>
-  <div style="background-color:cyan" id="mydiv"><canvas style="border:1px solid grey;" id="mycanvas"></canvas></div>
+        </canvas>
+    </div>
       
     <!-- All of the Node.js APIs are available in this renderer process. -->
     <p id='word1'>start!</p>,<p id='mean1'>여기는 뜻이 나오는 자리</p>
-<script>
-  var lastImageBlob
+    <!--<script type="text/javascript" src="test.js">  </script>-->
 
-  (function() {
-    var mydiv = document.getElementById('mydiv');
-    var canvas = document.getElementById('mycanvas'),
-            context = canvas.getContext('2d');
-
-    // resize the canvas to fill browser window dynamically
-    mydiv.addEventListener('resize', resizeCanvas, false);
-
-    function resizeCanvas() {
-            
-            canvas.width = mydiv.innerWidth;
-            canvas.height = mydiv.innerHeight;
-
-            /**
-             * Your drawings need to be inside this function otherwise they will be reset when 
-             * you resize the browser window and the canvas goes will be cleared.
-             */
-            drawStuff(); 
-    }
-    resizeCanvas();
-
-    function drawStuff() {
-            // do your drawing stuff here
-            onResizeCanvas();
-    }
-})();
-  </script>
+  
     <script>
       // You can also require other files to run in this process
       require('./renderer.js');
+      const testJS = require('./test.js');
+      //setInterval(testJS.resizeCanvasDiv, 2000);
 
       require('electron').ipcRenderer.on('word1Change', function(event, inText) {
         document.getElementById('word1').innerHTML = inText;
@@ -74,42 +52,108 @@ div {
         document.getElementById('mean1').innerHTML = inText;        
       });
 
-      function onResizeCanvas()
-      {
-        if (lastImageBlob)
+      //------------------------------
+    
+      var mydiv = document.getElementById('mydiv');
+//       var stage = new createjs.Stage("canvasH");
+//       createjs.Ticker.on("tick", tick);
+//       stage.addChild(mydiv);
+
+// function tick(event) {
+//     stage.update(event);
+//}      
+var img = new Image();
+    var lastImageBlob
+    //var mydiv = document.getElementById('mydiv');
+    var canvas = document.getElementById('mycanvas'), context = canvas.getContext('2d');
+
+
+    var elementResizeEvent = require('element-resize-event');
+ 
+ //var element = document.getElementById("resize");
+  
+ elementResizeEvent(mydiv, resizeCanvasDiv);
+ //elementResizeEvent(canvas, resizeCanvas);
+
+    function resizeCanvasDiv() {
+         console.log("\n resizeCanvasDiv() \n");
+        // //document.getElementById('word1').innerHTML = "resizeCanvasDiv()";
+        //   var canvas = document.getElementById("mycanvas");
+        //   var ctx = canvas.getContext('2d');
+        //   var mydiv = document.getElementById('mydiv');
+
+            //  canvas.width = mydiv.innerWidth;
+            //  canvas.height = mydiv.innerHeight;
+
+             resizeCanvas();
+
+        //stage.update();
+
+            
+    }
+
+    function resizeCanvas()
+    {
+        console.log("\n resizeCanvas() \n");
+        //document.getElementById('word1').innerHTML = "resizeCanvas()";
+        /**
+         * Your drawings need to be inside this function otherwise they will be reset when 
+         * you resize the browser window and the canvas goes will be cleared.
+         */            
+         if (lastImageBlob)
         {
-          var canvas = document.getElementById("mycanvas");
-        var ctx = canvas.getContext('2d');
-        
-        // Create an image to render the blob on the canvas
-        var img = new Image();
+    //       console.log("\n resizeCanvas() lastImageBlob\n");
+    //         //var mydiv = document.getElementById('mydiv');
+    //     //var canvas = document.getElementById("mycanvas");
+    //     //var ctx = canvas.getContext('2d');
+    //     var canvas = document.getElementById("mycanvas");
+    //       var ctx = canvas.getContext('2d');
+    //     // Create an image to render the blob on the canvas
+    //     //var img = new Image();
 
-        // Once the image loads, render the img on the canvas
-        img.onload = function(){
-            // Update dimensions of the canvas with the dimensions of the image
-            //canvas.width = this.width;
-            //canvas.height = this.height;
+    //     // Once the image loads, render the img on the canvas
+    // //     img.onload = function(){
+    // //         // Update dimensions of the canvas with the dimensions of the image
+    // //         console.log("\n resizeCanvas() onload" + img.width);
 
-            // Draw the image
-            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-        };
 
-        // Crossbrowser support for URL
-        var URLObj = window.URL || window.webkitURL;
+    // // // set size proportional to image
+    // // canvas.height = canvas.width * (img.height / img.width);
+
+    // // // step 1 - resize to 50%
+    // // var oc = document.createElement('canvas'),
+    // //     octx = oc.getContext('2d');
+
+    // // oc.width = img.width * 0.5;
+    // // oc.height = img.height * 0.5;
+    // // octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+    // // // step 2
+    // // octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
+
+    // // step 3, resize to final size
+    // ctx.drawImage(img, 0, 0, canvas.clientWidth, canvas.clientHeight);  
+
+    // //     };
+
+    //     // Crossbrowser support for URL
+         var URLObj = window.URL || window.webkitURL;
 
         // Creates a DOMString containing a URL representing the object given in the parameter
         // namely the original Blob
         img.src = URLObj.createObjectURL(lastImageBlob);
         }
-      }
+    }
 
-/**
+    /**
  * This handler retrieves the images from the clipboard as a blob and returns it in a callback.
  * 
  * @param pasteEvent 
  * @param callback 
  */
  function retrieveImageFromClipboardAsBlob(pasteEvent, callback){
+
+  console.log("\n retrieveImageFromClipboardAsBlob \n");
 	if(pasteEvent.clipboardData == false){
         if(typeof(callback) == "function"){
             callback(undefined);
@@ -145,18 +189,36 @@ retrieveImageFromClipboardAsBlob(e, function(imageBlob){
       lastImageBlob = imageBlob;
         var canvas = document.getElementById("mycanvas");
         var ctx = canvas.getContext('2d');
+        var mydiv = document.getElementById('mydiv');
         
         // Create an image to render the blob on the canvas
-        var img = new Image();
-
         // Once the image loads, render the img on the canvas
         img.onload = function(){
+          console.log("\n img onload() " + mydiv.clientWidth+"\n");
             // Update dimensions of the canvas with the dimensions of the image
-            canvas.width = this.width;
-            canvas.height = this.height;
+            canvas.width = mydiv.clientWidth;
+            canvas.height = mydiv.clientHeight;
 
             // Draw the image
-            ctx.drawImage(img, 0, 0);
+            ctx.drawImage(img, 0, 0, mydiv.clientWidth, mydiv.clientHeight);
+
+    // // set size proportional to image
+    // canvas.height = canvas.width * (img.height / img.width);
+
+    // // step 1 - resize to 50%
+    // var oc = document.createElement('canvas'),
+    //     octx = oc.getContext('2d');
+
+    // oc.width = img.width * 0.5;
+    // oc.height = img.height * 0.5;
+    // octx.drawImage(img, 0, 0, oc.width, oc.height);
+
+    // // step 2
+    // octx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5);
+
+    // // step 3, resize to final size
+    // ctx.drawImage(oc, 0, 0, oc.width * 0.5, oc.height * 0.5,
+    // 0, 0, canvas.width, canvas.height);            
         };
 
         // Crossbrowser support for URL
@@ -165,9 +227,12 @@ retrieveImageFromClipboardAsBlob(e, function(imageBlob){
         // Creates a DOMString containing a URL representing the object given in the parameter
         // namely the original Blob
         img.src = URLObj.createObjectURL(imageBlob);
+
+        //ctx.drawImage(img, 0, 0);
     }
 });
-}, false);
+}, false);      
+      //------------------------------------
     </script>
   </body>
 </html>

@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/electron/electron-quick-start",
   "dependencies": {
-    "css-element-queries": "^1.0.2"
+    "css-element-queries": "^1.0.2",
+    "element-resize-event": "^2.0.9"
   }
 }
